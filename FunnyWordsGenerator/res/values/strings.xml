@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">FunnyWordsGenerator</string>
+    <string name="welcome_msg">Welcome to Funny Words</string>
+    <string name="press_button">Change Word</string>
+    <string name="action_settings">Settings</string>
+
+</resources>
