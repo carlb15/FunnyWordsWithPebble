@@ -2,7 +2,14 @@
     "versionLabel": "1.0",
     "appKeys": {},
     "resources": {
-        "media": []
+        "media": [
+            {
+                "type": "png",
+                "file": "images/menu_image.png",
+                "name": "MENU_IMAGE",
+                "menuIcon": true
+            }
+        ]
     },
     "longName": "FunnyWords",
     "versionCode": 1,
