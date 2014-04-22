@@ -1,25 +1,18 @@
 {
-    "versionLabel": "1.0",
-    "appKeys": {},
-    "resources": {
-        "media": [
-            {
-                "type": "png",
-                "file": "images/menu_image.png",
-                "name": "MENU_IMAGE",
-                "menuIcon": true
-            }
-        ]
-    },
-    "longName": "FunnyWords",
-    "versionCode": 1,
-    "uuid": "7d881590-feb3-4f78-af55-85bb0ebc88bd",
     "capabilities": [
         ""
     ],
+    "versionLabel": "1.0",
+    "uuid": "7d881590-feb3-4f78-af55-85bb0ebc88bd",
+    "companyName": "carlb15@vt.edu",
+    "longName": "FunnyWords",
+    "appKeys": {},
+    "versionCode": 1,
+    "shortName": "FunnyWords",
     "watchapp": {
         "watchface": false
     },
-    "shortName": "FunnyWords",
-    "companyName": "carlb15@vt.edu"
+    "resources": {
+        "media": []
+    }
 }
