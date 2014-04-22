@@ -17,6 +17,9 @@ char word_buffer[64], definition_buffer[64];
 enum {
   KEY_WORD = 0,
   KEY_DEFINITION = 1,
+  BUTTON_EVENT_SELECT = 2,
+  BUTTON_EVENT_UP = 3,
+  BUTTON_EVENT_DOWN = 4,
 };
 
 /* Set-ups TextLayer to specification provided in arguments.*/
@@ -56,7 +59,23 @@ void process_tuple(Tuple *t)
       // Vibrate watch to indicate the message has been received.
       vibes_short_pulse();
       break;
+    case BUTTON_EVENT_SELECT:
+      
+      break;
   }
+}
+
+/* This function sends the key and its values to 
+the android application */
+void send_int(uint8_t key, uint8_t cmd)
+{
+    DictionaryIterator *iter;
+    app_message_outbox_begin(&iter);
+      
+    Tuplet value = TupletInteger(key, cmd);
+    dict_write_tuplet(iter, &value);
+      
+    app_message_outbox_send();
 }
 
 /* Processing the received Tuples*/
@@ -78,13 +97,37 @@ static void in_received_handler(DictionaryIterator *iter, void *context)
       process_tuple(t);
     }
   }
+  
+  //Register AppMessage events
+  app_message_register_inbox_received(in_received_handler);           
+  app_message_open(512, 512);    //Large input and output buffer sizes
 }
 
+static void select_click_handler(ClickRecognizerRef recognizer, void *context) {
+  text_layer_set_text(word_layer, "Select"); // TODO remove
+  send_int(KEY_WORD, BUTTON_EVENT_UP);
+}
+ 
+static void up_click_handler(ClickRecognizerRef recognizer, void *context) {
+  text_layer_set_text(word_layer, "Up");// TODO remove
+  send_int(KEY_WORD, BUTTON_EVENT_SELECT);
+}
+ 
+static void down_click_handler(ClickRecognizerRef recognizer, void *context) {
+  text_layer_set_text(word_layer, "Down");// TODO remove
+  send_int(KEY_WORD, BUTTON_EVENT_DOWN);
+}
+ 
+static void click_config_provider(void *context) {
+  window_single_click_subscribe(BUTTON_ID_SELECT, select_click_handler);
+  window_single_click_subscribe(BUTTON_ID_UP, up_click_handler);
+  window_single_click_subscribe(BUTTON_ID_DOWN, down_click_handler);
+}
 /* Load all window sub-elements */
 static void window_load(Window *window) {
   // Setup title layer where each word will be placed.
   word_layer = init_text_layer(GRect(5, 0, 144, 30), GColorBlack, GColorClear, "RESOURCE_ID_GOTHIC_24_BOLD", GTextAlignmentLeft);
-  text_layer_set_text(word_layer,"Welcome to Funny Words!");
+  text_layer_set_text(word_layer,"Welcome to \n Funny Words!");
   // Adds the text layer as a child of the window layer.  
   layer_add_child(window_get_root_layer(window), text_layer_get_layer(word_layer));
   // Setup definition text layer where the word's definition will be placed.
@@ -103,10 +146,12 @@ static void window_unload(Window *window) {
 static void init() {
   // Initialize app elements
   window = window_create();
+  window_set_click_config_provider(window, click_config_provider);
   window_set_window_handlers(window, (WindowHandlers) {
     .load = window_load,
     .unload = window_unload
   });
+  
 
   // Register AppMessage Events
   app_message_register_inbox_received(in_received_handler);           
