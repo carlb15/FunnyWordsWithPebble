@@ -128,12 +128,12 @@ static void window_load(Window *window) {
   GRect bounds = layer_get_bounds(window_layer);
   
   // Setup title layer where each word will be placed.
-  word_layer = init_text_layer(GRect(0, 0, bounds.size.w, bounds.size.h/2), GColorBlack, GColorClear, "RESOURCE_ID_GOTHIC_24_BOLD", GTextAlignmentLeft);
+  word_layer = init_text_layer(GRect(0, 0, bounds.size.w, bounds.size.h), GColorBlack, GColorClear, "RESOURCE_ID_GOTHIC_24_BOLD", GTextAlignmentLeft);
   text_layer_set_text(word_layer, "Funny Words! :)");
   // Adds the text layer as a child of the window layer.  
   layer_add_child(window_get_root_layer(window), text_layer_get_layer(word_layer));
   // Setup definition text layer where the word's definition will be placed.
-  definition_layer = init_text_layer(GRect(0, bounds.size.h/2, bounds.size.w, bounds.size.h/2), GColorBlack, GColorClear, "RESOURCE_ID_GOTHIC_24", GTextAlignmentLeft);
+  definition_layer = init_text_layer(GRect(0, bounds.size.h/2, bounds.size.w, bounds.size.h), GColorBlack, GColorClear, "RESOURCE_ID_GOTHIC_24", GTextAlignmentLeft);
   text_layer_set_text(definition_layer, "Press Select");
   // Allign the texts
   text_layer_set_text_alignment(word_layer, GTextAlignmentCenter);
